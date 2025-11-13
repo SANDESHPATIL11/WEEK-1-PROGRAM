@@ -1,0 +1,71 @@
+create database if not exists Bank;
+use Bank;
+
+CREATE TABLE Branch (
+    branch_name VARCHAR(30) PRIMARY KEY,
+    branch_city VARCHAR(30),
+    assets REAL
+);
+
+CREATE TABLE BankAccount (
+    accno INT PRIMARY KEY,   
+    branch_name VARCHAR(30),
+    balance REAL,
+    FOREIGN KEY (branch_name) REFERENCES Branch(branch_name)
+);
+
+CREATE TABLE BankCustomer (
+    customer_name VARCHAR(30) PRIMARY KEY,
+    customer_street VARCHAR(50),
+    customer_city VARCHAR(30)
+);
+
+CREATE TABLE Depositer (
+    customer_name VARCHAR(30),
+    accno INT,
+    PRIMARY KEY (customer_name, accno),
+    FOREIGN KEY (customer_name) REFERENCES BankCustomer(customer_name),
+    FOREIGN KEY (accno) REFERENCES BankAccount(accno)
+);
+
+CREATE TABLE Loan (
+    loan_number INT PRIMARY KEY,
+    branch_name VARCHAR(30),
+    amount REAL,
+    FOREIGN KEY (branch_name) REFERENCES Branch(branch_name)
+);
+
+INSERT INTO Branch VALUES
+('SBI_Chamrajpet', 'Bangalore', 50000),
+('SBI_ResidencyRoad', 'Bangalore', 10000),
+('SBI_ShivajiRoad', 'Bombay', 20000),
+('SBI_ParlimentRoad', 'Delhi', 10000),
+('SBI_Jantarmantar', 'Delhi', 20000);
+
+INSERT INTO BankAccount VALUES
+(1, 'SBI_Chamrajpet', 2000),
+(2, 'SBI_ResidencyRoad', 5000),
+(3, 'SBI_ShivajiRoad', 6000),
+(4, 'SBI_ParlimentRoad', 9000),
+(5, 'SBI_Jantarmantar', 8000);
+
+INSERT INTO BankCustomer VALUES
+('Avinash', 'Bull_Temple_Road', 'Bangalore'),
+('Dinesh', 'Bannerghatta_Road', 'Bangalore'),
+('Mohan', 'NationalCollege_Road', 'Bangalore'),
+('Nikil', 'Akbar_Road', 'Delhi'),
+('Ravi', 'Prithviraj_Road', 'Delhi');
+
+INSERT INTO Depositer VALUES
+('Avinash', 1),
+('Dinesh', 2),
+('Nikil', 4),
+('Ravi', 5),
+('Avinash', 2);
+
+INSERT INTO Loan VALUES
+(1, 'SBI_Chamrajpet', 1000),
+(2, 'SBI_ResidencyRoad', 2000),
+(3, 'SBI_ShivajiRoad', 3000),
+(4, 'SBI_ParlimentRoad', 4000),
+(5, 'SBI_Jantarmantar', 5000);
